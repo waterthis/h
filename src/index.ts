@@ -1,11 +1,9 @@
-import { Stage } from 'telegraf/scenes';
 import { Telegraf ,session,Context} from 'telegraf';
-// import { about_command,help_command,user_command} from './commands';
-
-import {default_handler} from "./text"
-// import { about } from './commands';
-// import { greeting } from './text';
+import { Stage } from 'telegraf/scenes';
 import { VercelRequest, VercelResponse } from '@vercel/node';
+
+import { about_command,help_command} from './commands';
+import {default_handler} from "./text"
 import { development, production } from './core';
 
 const BOT_TOKEN = process.env.BOT_TOKEN || '';
@@ -25,16 +23,18 @@ const bot = new Telegraf<BotContext>(BOT_TOKEN);
 // bot.command('about', about());
 // bot.on('message', greeting());
 
+about_command(bot);
+default_handler(bot);
+help_command(bot);
+// user_command(bot);
+
+
+
 //prod mode (Vercel)
 export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
   await production(req, res, bot);
 };
+
 //dev mode
 ENVIRONMENT !== 'production' && development(bot);
-
-
-
-// ======================================
-
-default_handler(bot);
 
