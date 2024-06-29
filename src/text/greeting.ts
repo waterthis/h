@@ -1,22 +1,15 @@
-import { Context } from 'telegraf';
-import createDebug from 'debug';
 
+import { Context, Composer } from "telegraf";
+import createDebug from "debug";
 const debug = createDebug('bot:greeting_text');
 
-const replyToMessage = (ctx: Context, messageId: number, string: string) =>
-  ctx.reply(string, {
-    reply_parameters: { message_id: messageId },
+
+const default_handler = (bot: Composer<Context>) => {
+  bot.on(["message"], async (ctx: Context) => {
+    const message = `Bot is under maintainance 🤗.`;
+    debug(`Triggered "about" command with message \n${message}`);
+    await ctx.replyWithMarkdownV2(message, { parse_mode: "Markdown" });
   });
-
-const greeting = () => async (ctx: Context) => {
-  debug('Triggered "greeting" text command');
-
-  const messageId = ctx.message?.message_id;
-  const userName = `${ctx.message?.from.first_name} ${ctx.message?.from.last_name}`;
-
-  if (messageId) {
-    await replyToMessage(ctx, messageId, `Hello, ${userName}!`);
-  }
 };
 
-export { greeting };
+export { default_handler };
