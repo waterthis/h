@@ -82,7 +82,6 @@ const user_command = (bot: Telegraf<MyContext>) => {
           await ctx.reply("Please enter a vaid username.");
         } else {
           const userData = userResponse.data.result[0];
-          // console.log(userData);
           const index = data.findIndex(
             (user:any) => user.handle === userData.handle
           );
@@ -101,6 +100,7 @@ const user_command = (bot: Telegraf<MyContext>) => {
               }
             );
           } catch (error:any) {
+            await ctx.reply("⚠️ Something went wrong *TRY AGAIN*",{parse_mode:"Markdown"});
             console.log("Something went wrong when replying to user");
             console.log(error.message);
           }
