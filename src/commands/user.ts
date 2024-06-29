@@ -82,7 +82,7 @@ const user_command = (bot: Telegraf<MyContext>) => {
           await ctx.reply("Please enter a vaid username.");
         } else {
           const userData = userResponse.data.result[0];
-          console.log(userData);
+          // console.log(userData);
           const index = data.findIndex(
             (user:any) => user.handle === userData.handle
           );
@@ -116,9 +116,9 @@ const user_command = (bot: Telegraf<MyContext>) => {
         console.log(error.message);
       }
     } else {
-      try {
-        await ctx.deleteMessage(waitMessage.message_id);
-      } catch (error) {}
+      // try {
+      //   await ctx.deleteMessage(waitMessage.message_id);
+      // } catch (error) {}
       await ctx.reply("Please enter username after /user command.");
     }
   });
