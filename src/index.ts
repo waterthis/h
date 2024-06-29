@@ -2,7 +2,7 @@ import { Telegraf ,session,Context} from 'telegraf';
 import { Stage } from 'telegraf/scenes';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { about_command,help_command} from './commands';
+import { about_command,help_command,user_command} from './commands';
 import {default_handler} from "./text"
 import { development, production } from './core';
 
@@ -25,7 +25,7 @@ const bot = new Telegraf<BotContext>(BOT_TOKEN);
 
 about_command(bot);
 help_command(bot);
-// user_command(bot);
+user_command(bot);
 
 
 default_handler(bot);
