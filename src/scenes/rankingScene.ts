@@ -148,7 +148,7 @@ RankingScene.enter(async (ctx:MyContext) => {
 
 RankingScene.action(["prev", "next"], async (ctx) => {
   let index = ctx.session.current_index;
-  console.log(ctx.match[0]);
+  // console.log(ctx.match[0]);
   if (ctx.match[0] === "prev") {
     index = Math.max(index - 5, 0);
   } else if (ctx.match[0] === "next") {

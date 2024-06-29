@@ -16,7 +16,7 @@ interface MyContext extends Context {
 
 const default_handler = (bot:Telegraf<MyContext>) => {
   bot.on(["message"], async (ctx: MyContext) => {
-    const message = `Bot is under maintainance 🤗.`;
+    const message = `*Feature is under maintainance 🤗.*`;
     debug(`Triggered "about" command with message \n${message}`);
     await ctx.replyWithMarkdownV2(message, { parse_mode: "Markdown" });
   });
