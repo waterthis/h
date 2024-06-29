@@ -86,7 +86,7 @@ const user_command = (bot: Telegraf<MyContext>) => {
             (user:any) => user.handle === userData.handle
           );
           try {
-            await ctx.deleteMessage(waitMessage.message_id);
+            // await ctx.deleteMessage(waitMessage.message_id);
             await ctx.reply(
               `[${userData.firstName || "NO First Name"} ${userData.handle || "No User Handle"} ${userData.lastName || "NO Last Name"}](https://codeforces.com/profile/${userData.handle})
   
