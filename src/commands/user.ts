@@ -42,27 +42,33 @@ const user_command = (bot: Telegraf<MyContext>) => {
 
         const userRequestURL = `${process.env.API_REQ}${sortedParamString}&apiSig=${randomNumber}${shaEncode}`;
         const userResponse :any = await axios(userRequestURL);
+        // console.log(userResponse);
 
-        const groupParams = {
+        const currentTime2 = String(Math.floor(new Date().getTime() / 1000));
+        const randomNumber2 = Math.floor(100000 + Math.random() * 900000);
+        const params2 = {
           apiKey: process.env.API_KEY,
           checkHistoricHandles: false,
           handles: process.env.USERS,
-          time: currentTime,
+          time: currentTime2,
         };
-        const sortedParamStringGroup = Object.entries(groupParams)
+        const sortedParamString2 = Object.entries(params2)
           .sort((a:any, b:any) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]))
           .map(([key, value]) => `${key}=${value}`)
           .join("&");
-        const stringToHashGroup = `${randomNumber}/user.info?${sortedParamString}#${process.env.API_SECRET}`;
-
-        const shaEncodeGroup = crypto
+        const stringToHash2 = `${randomNumber2}/user.info?${sortedParamString2}#${process.env.API_SECRET}`;
+  
+        const shaEncode2 = crypto
           .createHash("sha512")
-          .update(stringToHashGroup)
+          .update(stringToHash2)
           .digest("hex");
-
-        const requestURLGroup = `${process.env.API_REQ}${sortedParamStringGroup}&apiSig=${randomNumber}${shaEncodeGroup}`;
-        const groupResponse = await axios.get(requestURLGroup);
+  
+        const requestURL = `${process.env.API_REQ}${sortedParamString2}&apiSig=${randomNumber2}${shaEncode2}`;
+  
+        const groupResponse = await axios(requestURL);
         const data = groupResponse.data.result;
+
+     
         data.sort((a:any, b:any) => {
           if (!a.rating) return 1;
           if (!b.rating) return -1;
@@ -83,17 +89,15 @@ const user_command = (bot: Telegraf<MyContext>) => {
           try {
             await ctx.deleteMessage(waitMessage.message_id);
             await ctx.reply(
-              `[${userData.firstName || "NO Name"} /${
-                userData.handle
-              }/](https://codeforces.com/profile/${userData.handle})
+              `[${userData.firstName || "NO First Name"} ${userData.handle || "No User Handle"} ${userData.lastName || "NO Last Name"}](https://codeforces.com/profile/${userData.handle})
   
-  __CurrentRating__ : ${userData.rating || "Not rated"}
-  __Rank__ : ${userData.rank || "Not rated"}
-  __Rank from Group__ : ${index === -1 ? "Not in G53" : index + 1}
-  __Maximum Rating__ : ${userData.maxRating || "Not rated"}
-  __Maximum Rank__ : ${userData.maxRank || "Not rated"}`,
+*CurrentRating* : ${userData.rating || "Not rated"}
+*Rank* : ${userData.rank || "Not rated"}
+*Rank from Group* : ${index === -1 ? "Not in G53" : index + 1}
+*Maximum Rating* : ${userData.maxRating || "Not rated"}
+*Maximum Rank* : ${userData.maxRank || "Not rated"}`,
               {
-                parse_mode: "MarkdownV2",
+                parse_mode: "Markdown",
               }
             );
           } catch (error:any) {

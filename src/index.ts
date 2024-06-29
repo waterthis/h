@@ -30,7 +30,7 @@ bot.use(stage.middleware());
  
 about_command(bot);
 help_command(bot);
-// user_command(bot);
+user_command(bot);
 rank_command(bot);
 
 default_handler(bot);
