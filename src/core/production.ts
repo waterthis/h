@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import createDebug from 'debug';
-import { Context, Telegraf } from 'telegraf';
+import { Context, Telegraf,Scenes } from 'telegraf';
 import { Update } from 'telegraf/typings/core/types/typegram';
 
 const debug = createDebug('bot:dev');
@@ -8,10 +8,21 @@ const debug = createDebug('bot:dev');
 const PORT = (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000;
 const VERCEL_URL = `${process.env.VERCEL_URL}`;
 
+interface MySession extends Scenes.SceneSession {
+  group_data:any,
+  current_index:number
+}
+interface MyContext extends Context {
+  
+  session: MySession;
+  scene: Scenes.SceneContextScene<MyContext>;
+}
+
+
 const production = async (
   req: VercelRequest,
   res: VercelResponse,
-  bot: Telegraf<Context<Update>>,
+  bot: Telegraf<MyContext>,
 ) => {
   debug('Bot runs in production mode');
   debug(`setting webhook: ${VERCEL_URL}`);

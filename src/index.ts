@@ -1,40 +1,43 @@
-import { Telegraf ,session,Context} from 'telegraf';
+import { Telegraf ,session,Context,Scenes} from 'telegraf';
 import { Stage } from 'telegraf/scenes';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { about_command,help_command,user_command} from './commands';
+import { about_command,help_command,user_command,rank_command} from './commands';
+import { RankingScene } from './scenes';
 import {default_handler} from "./text"
 import { development, production } from './core';
 
 const BOT_TOKEN = process.env.BOT_TOKEN || '';
 const ENVIRONMENT = process.env.NODE_ENV || '';
 
-interface SessionData {
-  group_data:any
+
+interface MySession extends Scenes.SceneSession {
+  group_data:any,
+  current_index:number
 }
 
-interface BotContext extends Context {
-  session?: SessionData
+interface MyContext extends Context {  
+  session: MySession;
+  scene: Scenes.SceneContextScene<MyContext>;
 }
 
+const bot = new Telegraf<MyContext>(BOT_TOKEN);
+const stage = new Scenes.Stage<MyContext>([RankingScene]);
 
 
-const bot = new Telegraf<BotContext>(BOT_TOKEN);
-// bot.command('about', about());
-// bot.on('message', greeting());
-
+bot.use(session({ defaultSession: () => ({ group_data: "what's up peps",current_index:0}) }));
+bot.use(stage.middleware());
+ 
 about_command(bot);
 help_command(bot);
 user_command(bot);
-
+rank_command(bot);
 
 default_handler(bot);
 
-//prod mode (Vercel)
+
 export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
   await production(req, res, bot);
 };
 
-//dev mode
 ENVIRONMENT !== 'production' && development(bot);
-
