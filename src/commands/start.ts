@@ -48,7 +48,7 @@ const start_command = (bot: Telegraf<MyContext>) => {
           await ctx.scene.enter("RATING_SCENE");
         } else {
           try {
-            await ctx.reply("Something went wrong when fetching data");
+            await ctx.reply("Something went wrong when displaying data");
           } catch (error:any) {
             console.log("Something went wrong when replying to user");
             console.log(error.message);
@@ -57,7 +57,7 @@ const start_command = (bot: Telegraf<MyContext>) => {
         // console.log(response.data);
       } catch (error:any) {
         try {
-          await ctx.reply("Something went wrong when fetching data");
+          await ctx.reply("Something went wrong when displaying data");
         } catch (error:any) {
           console.log("Something went wrong when replying to user");
           console.log(error.message);

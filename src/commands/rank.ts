@@ -49,7 +49,7 @@ const rank_command = (bot: Telegraf<MyContext>) => {
         await ctx.scene.enter("RANKING_SCENE");
       } else {
         try {
-          await ctx.reply("Something went wrong when fetching data");
+          await ctx.reply("Something went wrong when displaying data");
         } catch (error : any) {
           console.log("Something went wrong when replying to user");
           console.log(error.message);
@@ -62,7 +62,7 @@ const rank_command = (bot: Telegraf<MyContext>) => {
         console.log("Something went wrong when replying to user");
         console.log(error.message);
       }
-      console.log("Something went wrong when fetching data");
+      console.log("Something went wrong when displaying data");
       console.log(error.message);
     }
   });
